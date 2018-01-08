@@ -1,10 +1,10 @@
 ## Time-Chain
 
-Official TimeShittle implementation of the Time-Chain protocol.
+Official TimeShuttle implementation of the Time-Chain protocol.
 
 
 Automated builds are available for stable releases and the unstable master branch.
-Binary archives are published at https://Shittle.TimeChain.org/downloads/.
+Binary archives are published at https://Shuttle.TimeChain.org/downloads/.
 
 ## Building the source
 
@@ -18,21 +18,21 @@ The Time-Chain project comes with several wrappers/executables found in the `cmd
 
 | Command    | Description |
 |:----------:|-------------|
-| **`Shittle`** | Our main Time-Chain CLI client. It is the entry point into the Time-Chain network (main-, test- or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Time-Chain network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `Shittle --help` and the [CLI Wiki page](https://github.com/TimeChain/go-TimeChain/wiki/Command-Line-Options) for command line options. |
+| **`Shuttle`** | Our main Time-Chain CLI client. It is the entry point into the Time-Chain network (main-, test- or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Time-Chain network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `Shuttle --help` and the [CLI Wiki page](https://github.com/TimeChain/go-TimeChain/wiki/Command-Line-Options) for command line options. |
 | `abigen` | Source code generator to convert Time-Chain contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Time-Chain contract ABIs](https://github.com/TimeChain/wiki/wiki/Time-Chain-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/TimeChain/go-TimeChain/wiki/Native-DApps:-Go-bindings-to-Time-Chain-contracts) wiki page for details. |
 | `bootnode` | Stripped down version of our Time-Chain client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
 | `evm` | Developer utility version of the EVM (Time-Chain Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow isolated, fine-grained debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
-| `Shittlerpctest` | Developer utility tool to support our [TimeChain/rpc-test](https://github.com/TimeChain/rpc-tests) test suite which validates baseline conformity to the [Time-Chain JSON RPC](https://github.com/TimeChain/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/TimeChain/rpc-tests/blob/master/README.md) for details. |
+| `Shuttlerpctest` | Developer utility tool to support our [TimeChain/rpc-test](https://github.com/TimeChain/rpc-tests) test suite which validates baseline conformity to the [Time-Chain JSON RPC](https://github.com/TimeChain/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/TimeChain/rpc-tests/blob/master/README.md) for details. |
 | `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/TimeChain/wiki/wiki/RLP)) dumps (data encoding used by the Time-Chain protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
 | `swarm`    | swarm daemon and tools. This is the entrypoint for the swarm network. `swarm --help` for command line options and subcommands. See https://swarm-guide.readthedocs.io for swarm documentation. |
 | `puppeth`    | a CLI wizard that aids in creating a new Time-Chain network. |
 
-## Running Shittle
+## Running Shuttle
 
 Going through all the possible command line flags is out of scope here (please consult our
 [CLI Wiki page](https://github.com/TimeChain/go-TimeChain/wiki/Command-Line-Options)), but we've
 enumerated a few common parameter combos to get you up to speed quickly on how you can run your
-own Shittle instance.
+own Shuttle instance.
 
 ### Full node on the main Time-Chain network
 
@@ -42,21 +42,21 @@ the user doesn't care about years-old historical data, so we can fast-sync quick
 state of the network. To do so:
 
 ```
-$ Shittle --fast --cache=512 console
+$ Shuttle --fast --cache=512 console
 ```
 
 This command will:
 
- * Start Shittle in fast sync mode (`--fast`), causing it to download more data in exchange for avoiding
+ * Start Shuttle in fast sync mode (`--fast`), causing it to download more data in exchange for avoiding
    processing the entire history of the Time-Chain network, which is very CPU intensive.
  * Bump the memory allowance of the database to 512MB (`--cache=512`), which can help significantly in
    sync times especially for HDD users. This flag is optional and you can set it as high or as low as
    you'd like, though we'd recommend the 512MB - 2GB range.
- * Start up Shittle's built-in interactive [JavaScript console](https://github.com/TimeChain/go-TimeChain/wiki/JavaScript-Console),
+ * Start up Shuttle's built-in interactive [JavaScript console](https://github.com/TimeChain/go-TimeChain/wiki/JavaScript-Console),
    (via the trailing `console` subcommand) through which you can invoke all official [`web3` methods](https://github.com/TimeChain/wiki/wiki/JavaScript-API)
-   as well as Shittle's own [management APIs](https://github.com/TimeChain/go-TimeChain/wiki/Management-APIs).
-   This too is optional and if you leave it out you can always attach to an already running Shittle instance
-   with `Shittle attach`.
+   as well as Shuttle's own [management APIs](https://github.com/TimeChain/go-TimeChain/wiki/Management-APIs).
+   This too is optional and if you leave it out you can always attach to an already running Shuttle instance
+   with `Shuttle attach`.
 
 ### Full node on the Time-Chain test network
 
@@ -66,43 +66,43 @@ entire system. In other words, instead of attaching to the main network, you wan
 network with your node, which is fully equivalent to the main network, but with play-Ether only.
 
 ```
-$ Shittle --testnet --fast --cache=512 console
+$ Shuttle --testnet --fast --cache=512 console
 ```
 
 The `--fast`, `--cache` flags and `console` subcommand have the exact same meaning as above and they
 are equally useful on the testnet too. Please see above for their explanations if you've skipped to
 here.
 
-Specifying the `--testnet` flag however will reconfigure your Shittle instance a bit:
+Specifying the `--testnet` flag however will reconfigure your Shuttle instance a bit:
 
- * Instead of using the default data directory (`~/.TimeChain` on Linux for example), Shittle will nest
+ * Instead of using the default data directory (`~/.TimeChain` on Linux for example), Shuttle will nest
    itself one level deeper into a `testnet` subfolder (`~/.TimeChain/testnet` on Linux). Note, on OSX
    and Linux this also means that attaching to a running testnet node requires the use of a custom
-   endpoint since `Shittle attach` will try to attach to a production node endpoint by default. E.g.
-   `Shittle attach <datadir>/testnet/Shittle.ipc`. Windows users are not affected by this.
+   endpoint since `Shuttle attach` will try to attach to a production node endpoint by default. E.g.
+   `Shuttle attach <datadir>/testnet/Shuttle.ipc`. Windows users are not affected by this.
  * Instead of connecting the main Time-Chain network, the client will connect to the test network,
    which uses different P2P bootnodes, different network IDs and genesis states.
    
 *Note: Although there are some internal protective measures to prevent transactions from crossing
 over between the main network and test network, you should make sure to always use separate accounts
-for play-money and real-money. Unless you manually move accounts, Shittle will by default correctly
+for play-money and real-money. Unless you manually move accounts, Shuttle will by default correctly
 separate the two networks and will not make any accounts available between them.*
 
 ### Configuration
 
-As an alternative to passing the numerous flags to the `Shittle` binary, you can also pass a configuration file via:
+As an alternative to passing the numerous flags to the `Shuttle` binary, you can also pass a configuration file via:
 
 ```
-$ Shittle --config /path/to/your_config.toml
+$ Shuttle --config /path/to/your_config.toml
 ```
 
 To get an idea how the file should look like you can use the `dumpconfig` subcommand to export your existing configuration:
 
 ```
-$ Shittle --your-favourite-flags dumpconfig
+$ Shuttle --your-favourite-flags dumpconfig
 ```
 
-*Note: This works only with Shittle v1.6.0 and above.*
+*Note: This works only with Shuttle v1.6.0 and above.*
 
 #### Docker quick start
 
@@ -114,17 +114,17 @@ docker run -d --name TimeChain-node -v /Users/alice/TimeChain:/root \
            TimeChain/client-go --fast --cache=512
 ```
 
-This will start Shittle in fast sync mode with a DB memory allowance of 512MB just as the above command does.  It will also create a persistent volume in your home directory for saving your blockchain as well as map the default ports. There is also an `alpine` tag available for a slim version of the image.
+This will start Shuttle in fast sync mode with a DB memory allowance of 512MB just as the above command does.  It will also create a persistent volume in your home directory for saving your blockchain as well as map the default ports. There is also an `alpine` tag available for a slim version of the image.
 
-### Programatically interfacing Shittle nodes
+### Programatically interfacing Shuttle nodes
 
-As a developer, sooner rather than later you'll want to start interacting with Shittle and the Time-Chain
-network via your own programs and not manually through the console. To aid this, Shittle has built in
+As a developer, sooner rather than later you'll want to start interacting with Shuttle and the Time-Chain
+network via your own programs and not manually through the console. To aid this, Shuttle has built in
 support for a JSON-RPC based APIs ([standard APIs](https://github.com/TimeChain/wiki/wiki/JSON-RPC) and
-[Shittle specific APIs](https://github.com/TimeChain/go-TimeChain/wiki/Management-APIs)). These can be
+[Shuttle specific APIs](https://github.com/TimeChain/go-TimeChain/wiki/Management-APIs)). These can be
 exposed via HTTP, WebSockets and IPC (unix sockets on unix based platforms, and named pipes on Windows).
 
-The IPC interface is enabled by default and exposes all the APIs supported by Shittle, whereas the HTTP
+The IPC interface is enabled by default and exposes all the APIs supported by Shuttle, whereas the HTTP
 and WS interfaces need to manually be enabled and only expose a subset of APIs due to security reasons.
 These can be turned on/off and configured as you'd expect.
 
@@ -145,7 +145,7 @@ HTTP based JSON-RPC API options:
   * `--ipcpath` Filename for IPC socket/pipe within the datadir (explicit paths escape it)
 
 You'll need to use your own programming environments' capabilities (libraries, tools, etc) to connect
-via HTTP, WS or IPC to a Shittle node configured with the above flags and you'll need to speak [JSON-RPC](http://www.jsonrpc.org/specification)
+via HTTP, WS or IPC to a Shuttle node configured with the above flags and you'll need to speak [JSON-RPC](http://www.jsonrpc.org/specification)
 on all transports. You can reuse the same connection for multiple requests!
 
 **Note: Please understand the security implications of opening up an HTTP/WS based transport before
@@ -195,11 +195,11 @@ configs:
 }
 ```
 
-With the genesis state defined in the above JSON file, you'll need to initialize **every** Shittle node
+With the genesis state defined in the above JSON file, you'll need to initialize **every** Shuttle node
 with it prior to starting it up to ensure all blockchain parameters are correctly set:
 
 ```
-$ Shittle init path/to/genesis.json
+$ Shuttle init path/to/genesis.json
 ```
 
 #### Creating the rendezvous point
@@ -218,17 +218,17 @@ that other nodes can use to connect to it and exchange peer information. Make su
 displayed IP address information (most probably `[::]`) with your externally accessible IP to get the
 actual `enode` URL.
 
-*Note: You could also use a full fledged Shittle node as a bootnode, but it's the less recommended way.*
+*Note: You could also use a full fledged Shuttle node as a bootnode, but it's the less recommended way.*
 
 #### Starting up your member nodes
 
 With the bootnode operational and externally reachable (you can try `telnet <ip> <port>` to ensure
-it's indeed reachable), start every subsequent Shittle node pointed to the bootnode for peer discovery
+it's indeed reachable), start every subsequent Shuttle node pointed to the bootnode for peer discovery
 via the `--bootnodes` flag. It will probably also be desirable to keep the data directory of your
 private network separated, so do also specify a custom `--datadir` flag.
 
 ```
-$ Shittle --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url-from-above>
+$ Shuttle --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url-from-above>
 ```
 
 *Note: Since your network will be completely cut off from the main and test networks, you'll also
@@ -243,11 +243,11 @@ repository.
 
 In a private network setting however, a single CPU miner instance is more than enough for practical
 purposes as it can produce a stable stream of blocks at the correct intervals without needing heavy
-resources (consider running on a single thread, no need for multiple ones either). To start a Shittle
+resources (consider running on a single thread, no need for multiple ones either). To start a Shuttle
 instance for mining, run it with all your usual flags, extended by:
 
 ```
-$ Shittle <usual-flags> --mine --minerthreads=1 --etherbase=0x0000000000000000000000000000000000000000
+$ Shuttle <usual-flags> --mine --minerthreads=1 --etherbase=0x0000000000000000000000000000000000000000
 ```
 
 Which will start mining bocks and transactions on a single CPU thread, crediting all proceedings to
@@ -268,8 +268,8 @@ procedures quick and simple.
 
 Please make sure your contributions adhere to our coding guidelines:
 
- * Code must adhere to the official Go [formatting](https://TimeShittle.org/doc/effective_go.html#formatting) guidelines (i.e. uses [gofmt](https://TimeShittle.org/cmd/gofmt/)).
- * Code must be documented adhering to the official Go [commentary](https://TimeShittle.org/doc/effective_go.html#commentary) guidelines.
+ * Code must adhere to the official Go [formatting](https://TimeShuttle.org/doc/effective_go.html#formatting) guidelines (i.e. uses [gofmt](https://TimeShuttle.org/cmd/gofmt/)).
+ * Code must be documented adhering to the official Go [commentary](https://TimeShuttle.org/doc/effective_go.html#commentary) guidelines.
  * Pull requests need to be based on and opened against the `master` branch.
  * Commit messages should be prefixed with the package(s) they modify.
    * E.g. "eth, rpc: make trace configs optional"
